@@ -17,23 +17,26 @@ public class DayThree : MonoBehaviour
     {
         //in each string in rucksacks, find the character that appears in both the first half and the second half of the string
         string[] rucksacks = GetFileContents();
-        foreach (string rucksack in rucksacks)
+        
+        //find the common character in each group of 3 strings in the array
+        for (int i = 0; i < rucksacks.Length; i += 3)
         {
-            string firstHalf = rucksack.Substring(0, rucksack.Length / 2);
-            string secondHalf = rucksack.Substring(rucksack.Length / 2, rucksack.Length / 2);
-            foreach (char c in firstHalf)
+            string first = rucksacks[i];
+            string second = rucksacks[i + 1];
+            string third = rucksacks[i + 2];
+            for (int j = 0; j < first.Length; j++)
             {
-                if (secondHalf.Contains(c))
+                if (second.Contains(first[j]) && third.Contains(first[j]))
                 {
-                    if (char.IsUpper(c))
+                    if (char.IsUpper(first[j]))
                     {
                         //add 27 for 'A' to total sum of priorities, 28 for 'B', etc.
-                        totalSumOfPriorities += (int)c - 38;
+                        totalSumOfPriorities += (int)first[j] - 38;
                     }
                     else
                     {
                         //add 1 for 'a' to total sum of priorities, 2 for 'b', etc.
-                        totalSumOfPriorities += (int)c - 96;
+                        totalSumOfPriorities += (int)first[j] - 96;
                     }
                     break;
                 }
