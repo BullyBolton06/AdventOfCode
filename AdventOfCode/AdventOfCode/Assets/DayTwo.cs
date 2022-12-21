@@ -11,17 +11,28 @@ public class DayTwo : MonoBehaviour
     {
         Rock,
         Paper,
-        Scissors
+        Scissors,
     }   
     
+    public enum Result
+    {
+        Win,
+        Lose,
+        Draw,
+    }
+    
+    Dictionary<string,Result> results = new Dictionary<string, Result>()
+    {
+        {"X", Result.Lose},
+        {"Y", Result.Draw},
+        {"Z", Result.Win}
+    };
     Dictionary<string,Play> plays = new Dictionary<string, Play>()
     {
         {"A", Play.Rock},
         {"B", Play.Paper},
         {"C", Play.Scissors},
-        {"X", Play.Rock},
-        {"Y", Play.Paper},
-        {"Z", Play.Scissors}
+        
     };
 
     private int totalScore;
@@ -43,47 +54,88 @@ public class DayTwo : MonoBehaviour
 int CalculateScoresOfGame(string[] game)
     {
         int score = 0;
-      //convert each score to a play
+     
         var playerOnePlay = plays[game[0]];
-        var playerTwoPlay = plays[game[1]];
-
-        switch (playerTwoPlay)
+        var result = results[game[1]];
+        
+        //work out what the player two has played is if playerOnePlay represents what player one played and result represents the result of the game
+        Play? playerTwoPlay = null;
+        
+        switch (playerOnePlay)
         {
             case Play.Rock:
-                score += 1;
+                switch (result)
+                {
+                    case Result.Win:
+                        playerTwoPlay = Play.Paper;
+                        break;
+                    case Result.Lose:
+                        playerTwoPlay = Play.Scissors;
+                        break;
+                    case Result.Draw:
+                        playerTwoPlay = Play.Rock;
+                        break;
+                }
                 break;
             case Play.Paper:
-                score += 2;
+                switch (result)
+                {
+                    case Result.Win:
+                        playerTwoPlay = Play.Scissors;
+                        break;
+                    case Result.Lose:
+                        playerTwoPlay = Play.Rock;
+                        break;
+                    case Result.Draw:
+                        playerTwoPlay = Play.Paper;
+                        break;
+                }
                 break;
             case Play.Scissors:
-                score += 3;
+                switch (result)
+                {
+                    case Result.Win:
+                        playerTwoPlay = Play.Rock;
+                        break;
+                    case Result.Lose:
+                        playerTwoPlay = Play.Paper;
+                        break;
+                    case Result.Draw:
+                        playerTwoPlay = Play.Scissors;
+                        break;
+                }
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
         
         
-//compare the plays, if the second player wins add 6 to the score, if its a draw add 3, if the second player loses, dont add anything
-        if (playerOnePlay == Play.Rock && playerTwoPlay == Play.Paper)
+        if (result == Result.Win)
         {
             score += 6;
         }
-        else if (playerOnePlay == Play.Paper && playerTwoPlay == Play.Scissors)
+        else if (result == Result.Draw)
         {
-            score += 6;
+            score +=3 ;
         }
-        else if (playerOnePlay == Play.Scissors && playerTwoPlay == Play.Rock)
+
+        if (playerTwoPlay== Play.Rock)
         {
-            score += 6;
+            score += 1;
         }
-        else if (playerOnePlay == playerTwoPlay)
+        else if (playerTwoPlay == Play.Paper)
+        {
+            score += 2;
+        }else if (playerTwoPlay == Play.Scissors)
         {
             score += 3;
         }
+    
         
         return score;
     }
         
+
+
+
 
    
     
