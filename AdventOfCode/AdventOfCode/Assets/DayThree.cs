@@ -24,19 +24,19 @@ public class DayThree : MonoBehaviour
             string first = rucksacks[i];
             string second = rucksacks[i + 1];
             string third = rucksacks[i + 2];
-            for (int j = 0; j < first.Length; j++)
+            foreach (var t in first)
             {
-                if (second.Contains(first[j]) && third.Contains(first[j]))
+                if (second.Contains(t) && third.Contains(t))
                 {
-                    if (char.IsUpper(first[j]))
+                    if (char.IsUpper(t))
                     {
                         //add 27 for 'A' to total sum of priorities, 28 for 'B', etc.
-                        totalSumOfPriorities += (int)first[j] - 38;
+                        totalSumOfPriorities += (int)t - 38;
                     }
                     else
                     {
                         //add 1 for 'a' to total sum of priorities, 2 for 'b', etc.
-                        totalSumOfPriorities += (int)first[j] - 96;
+                        totalSumOfPriorities += (int)t - 96;
                     }
                     break;
                 }
